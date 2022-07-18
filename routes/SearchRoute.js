@@ -4,14 +4,15 @@ import Questions from "../models/Questions.js";
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const { q } = req.query;
+  const { q } = req.query; // Getting the search query from URL params
 
   await Questions.aggregate([
+    // Created an index in mongoDB and taken the search syntax from mongoDB
     {
       $search: {
         index: "default",
         text: {
-          query: q,
+          query: q, // matching the query word with the entire question collections
           path: {
             wildcard: "*",
           },

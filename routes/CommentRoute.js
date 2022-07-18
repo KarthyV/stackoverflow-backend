@@ -1,14 +1,15 @@
 import express from "express";
-import CommentDB from "../models/Comments.js";
+import CommentDB from "../models/Comments.js"; //Getting the commentDB
 
-const router = express.Router();
+const router = express.Router(); //Handling with express router
 
 router.post("/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    const { comment, user } = req.body;
+    const { id } = req.params; // Getting the current question id from the URL params
+    const { comment, user } = req.body; // Getting the comment and user details from the frontend
 
     await CommentDB.create({
+      // Adding the comment data to database
       question_id: id,
       comment: comment,
       user: user,

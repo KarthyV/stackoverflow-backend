@@ -1,18 +1,21 @@
 import express from "express";
-import AnswerDB from "../models/Answers.js";
+import AnswerDB from "../models/Answers.js"; // Getting the AnswerDB
 
-const router = express.Router();
+const router = express.Router(); //Handling with express router
 
 router.post("/:id", async (req, res) => {
-  const { answers, user } = req.body;
+  const { answers, user } = req.body; // Getting the answer and user details from the frontend
 
-  const { id } = req.params;
+  const { id } = req.params; // Getting the current question id from the URL params
+
   const answerData = new AnswerDB({
+    // Creating the answer object
     question_id: id,
     answers: answers,
     user: user,
   });
 
+  // Adding it to the database
   await answerData
     .save()
     .then((response) =>

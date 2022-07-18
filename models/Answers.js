@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
+// Creating a answerSchema
 const answerSchema = new mongoose.Schema({
   question_id: {
+    //Having the question_id as ref for linking with the respective questions
     type: mongoose.Schema.Types.ObjectId,
     ref: "Questions",
   },

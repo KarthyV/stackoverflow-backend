@@ -9,23 +9,23 @@ import VoteRoute from "./routes/VoteRoute.js";
 import UserRoute from "./routes/UserRoute.js";
 import SearchRoute from "./routes/SearchRoute.js";
 
-dotenv.config();
+dotenv.config(); // Configuration of .env file
 
 //Server Setup
-const app = express();
-const PORT = process.env.PORT;
+const app = express(); // express initialization
+const PORT = process.env.PORT; // assigning a port for server
 
 // Database Setup
-const url = process.env.MONGO_URL;
-mongoose
+const url = process.env.MONGO_URL; // Getting the mongo URL from the .env file
+mongoose //connecting the mongoose as mongoDB
   .connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => console.log("Database Connected"))
   .catch((err) => console.log(err));
 
 //Middlewares
-app.use(cors());
+app.use(cors()); // Adding cors for cross platform configuration
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json()); // parses incoming JSON responses to Object
 
 //Routes
 app.get("/", (req, res) => {

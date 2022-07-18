@@ -1,17 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
-import QuestionDB from "../models/Questions.js";
+import QuestionDB from "../models/Questions.js"; // Getting the QuestionDB
 
-const router = express.Router();
+const router = express.Router(); //Handling with express router
 
 router.post("/", async (req, res) => {
-  const { title, body, tags, user } = req.body;
+  const { title, body, tags, user } = req.body; // Getting all the data from frontEnd
   const questionData = new QuestionDB({
+    // Creating a new question
     title: title,
     body: body,
     tags: tags,
     user: user,
   });
+  // Sending it to the database
   await questionData
     .save()
     .then((response) => {
@@ -25,16 +27,18 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  //GET request for all questions
   await QuestionDB.aggregate([
+    // Creating a aggregate method for combining the answers,comments and voteDetails based on mongoDB methods
     {
       $lookup: {
-        from: "answers",
+        from: "answers", // assigning a lookup  method on answers collection
         // localField: "_id",
         // foreignField: "question_id",
-        let: { question_id: "$_id" },
+        let: { question_id: "$_id" }, // assigning the question id as id
         pipeline: [
-          { $match: { $expr: { $eq: ["$question_id", "$$question_id"] } } },
-          { $project: { _id: 1, user: 1 } },
+          { $match: { $expr: { $eq: ["$question_id", "$$question_id"] } } }, // matching the question id with the respective cells question id
+          { $project: { _id: 1, user: 1 } }, // Displaying only the id and user by inclusion method
         ],
         as: "answers",
       },
